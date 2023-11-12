@@ -1,0 +1,12 @@
+const meta = require('html-metadata-parser')
+const getMetadta = async (req, res) => {
+    const { url } = req.query;
+    try {
+        const metadata = await meta.parser(url);
+        res.json(metadata);
+    }
+    catch (error) {
+        res.json({ error });
+    }
+}
+module.exports = getMetadta;
