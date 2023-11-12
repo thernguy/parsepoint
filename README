@@ -1,0 +1,24 @@
+# Node.js Proxy Server for URL Metadata Parsing and CORS Fixing
+
+This is a Node.js proxy server that parses metadata from a given URL and fixes CORS issues. It is built using Node.js, Express, html-metadata-parser, and Axios.
+This cloud be useful for a web app that needs to parse metadata from a URL but is unable to do so due to CORS issues.
+
+## Installation
+
+1. Clone the repository: `git clone https://github.com/mamun-mahmood/proxy-server.git`
+2. cd into the directory: `cd proxy-server`
+3. Install dependencies: `npm install`
+
+## Usage
+
+1. Start the server: `npm start`
+2. Send a GET request to `http://localhost:3000/?url=https://example.com` with the URL you want to parse as the `url` query parameter.
+3. The server will return the metadata for the given URL in JSON format.
+
+## Contributing
+
+Contributions are welcome! Please open an issue or submit a pull request.
+
+## License
+
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
