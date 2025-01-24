@@ -9,11 +9,12 @@
   "routes": [
     {
       "src": "/static/(.*)",
-      "dest": "/app.js"
+      "dest": "/public/$1"
     },
     {
       "src": "/(.*)",
       "dest": "/app.js"
     }
-  ]
+  ],
+  "public": true
 }
