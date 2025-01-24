@@ -1,24 +1,78 @@
-# Node.js Proxy Server for URL Metadata Parsing and CORS Fixing
+# Node.js Metadata Parser API
 
-This is a Node.js proxy server that parses metadata from a given URL and fixes CORS issues. It is built using Node.js, Express, html-metadata-parser, and Axios.
-This cloud be useful for a web app that needs to parse metadata from a URL but is unable to do so due to CORS issues.
+A simple and versatile Node.js API for extracting metadata, sitemap links, and bypassing CORS restrictions using a proxy. This project is designed to be lightweight, efficient, and developer-friendly, with built-in preview capabilities for better usability.
 
-## Installation
+---
 
-1. Clone the repository: `git clone https://github.com/mamun-mahmood/proxy-server.git`
-2. cd into the directory: `cd proxy-server`
-3. Install dependencies: `npm install`
+## Features
+
+### 1. Metadata Parsing
+
+- **Route:** `/metadata`
+- **Description:** Extracts metadata from a given URL (e.g., title, description, images).
+- **Preview:** Supports a `preview=true` query parameter to render the metadata visually.
+
+#### Example:
+
+- **Request:**
+  ```
+  GET /metadata?url=https://example.com&preview=true
+  ```
+- **Response (JSON):**
+  ```json
+  {
+    "title": "Example Domain",
+    "description": "This domain is for use in illustrative examples.",
+    "image": "https://example.com/logo.png"
+  }
+  ```
+- **Response (Preview):** Returns an HTML page with the metadata visually displayed.
+
+---
+
+### 2. Sitemap Link Extraction
+
+- **Route:** `/sitemap`
+- **Description:** Fetches all anchor links (`<a>` tags) from a given URL.
+- **Preview:** Supports a `preview=true` query parameter to display links in an HTML format.
+
+#### Example:
+
+- **Request:**
+  ```
+  GET /sitemap?url=https://example.com&preview=true
+  ```
+- **Response (JSON):**
+  ```json
+  {
+    "links": ["https://example.com/about", "https://example.com/contact"]
+  }
+  ```
+- **Response (Preview):** Returns an HTML page listing all extracted links.
+
+---
+
+### 3. Proxy Request
+
+- **Route:** `/proxy`
+- **Description:** Resolves CORS-related issues by acting as a proxy to fetch data from a specified URL.
+
+#### Example:
+
+- **Request:**
+  ```
+  GET /proxy?url=https://example.com
+  ```
+- **Response:** Returns the raw content of the requested URL.
+
+---
 
 ## Usage
 
-1. Start the server: `npm start`
-2. Send a GET request to `http://localhost:3000/?url=https://example.com` with the URL you want to parse as the `url` query parameter.
-3. The server will return the metadata for the given URL in JSON format.
+Access the API at `https://proxy-cyan-iota.vercel.app` and use the provided routes with appropriate query parameters.
+
+---
 
 ## Contributing
 
-Contributions are welcome! Please open an issue or submit a pull request.
-
-## License
-
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+Feel free to submit issues or pull requests to improve this project. Contributions are always welcome!
