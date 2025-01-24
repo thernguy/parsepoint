@@ -69,7 +69,7 @@ A simple and versatile Node.js API for extracting metadata, sitemap links, and b
 
 ## Usage
 
-Access the API at `https://proxy-cyan-iota.vercel.app` and use the provided routes with appropriate query parameters.
+Access the API at `https://parsepoint.vercel.app` and use the provided routes with appropriate query parameters.
 
 ---
 

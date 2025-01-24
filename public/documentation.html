@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Parse Point - Metadata Parsing, Sitemap Fetching, and More</title>
+    <meta
+      name="description"
+      content="Parse Point is your ultimate tool for fetching metadata, parsing sitemaps, bypassing CORS, and generating Google Drive download links. Simplify your projects with our API-ready features."
+    />
+    <meta
+      name="keywords"
+      content="Parse Point, metadata parsing, sitemap links, proxy CORS, Google Drive download link, API tools, web development tools, URL metadata"
+    />
+    <meta name="author" content="Your Name or Organization" />
+    <meta
+      property="og:title"
+      content="Parse Point - Simplify Web Development with Easy API Features"
+    />
+    <meta
+      property="og:description"
+      content="Fetch metadata, parse sitemaps, bypass CORS, and convert Google Drive public links into direct download links. All-in-one API tool for developers."
+    />
+    <meta property="og:image" content="https://parsepoint.vercel.app/static/parse-banner.webp" />
+    <meta property="og:url" content="https://parsepoint.vercel.app/" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta
+      name="twitter:title"
+      content="Parse Point - Your API Tool for Metadata, Sitemaps, and More"
+    />
+    <meta
+      name="twitter:description"
+      content="Simplify your projects with Parse Point. APIs for metadata parsing, sitemaps, CORS proxying, and more."
+    />
+    <meta name="twitter:image" content="https://parsepoint.vercel.app/static/parse-banner.webp" />
+    <link rel="icon" href="/public/favicon.ico" />
+    <link rel="canonical" href="https://parsepoint.vercel.app/" />
+    <script src="https://cdn.tailwindcss.com"></script>
+  </head>
+  <body class="bg-gray-100 font-sans leading-normal tracking-normal">
+    <!-- Header -->
+    <header class="bg-gray-700 text-white py-4">
+      <div class="container mx-auto px-4">
+        <h1 class="text-3xl font-bold text-center">< Parse Point /></h1>
+        <p class="text-lg text-center">
+          Easily integrate metadata parsing, sitemaps, proxies, and Google Drive
+          downloads into your projects.
+        </p>
+      </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="container mx-auto px-4 mt-6">
+      <!-- Metadata Route -->
+      <section id="metadata" class="mb-8">
+        <h2 class="text-2xl font-semibold mb-2">/metadata</h2>
+        <p class="mb-4">
+          Fetch metadata (title, description, images) from a given URL. Perfect
+          for building social media previews or enhancing your web scraping
+          projects.
+        </p>
+        <div class="bg-gray-50 p-4 rounded shadow">
+          <h3 class="font-bold">Example Request:</h3>
+          <pre class="bg-gray-800 text-white p-4 rounded">
+GET /metadata?url=https://example.com
+          </pre>
+          <h3 class="font-bold mt-4">Example Response:</h3>
+          <pre class="bg-gray-800 text-white p-4 rounded">
+{
+  "og": {
+    "title": "Example Title",
+    "description": "Example Description",
+    "image": "https://example.com/image.jpg"
+  }
+}
+          </pre>
+        </div>
+      </section>
+
+      <!-- Sitemap Route -->
+      <section id="sitemap" class="mb-8">
+        <h2 class="text-2xl font-semibold mb-2">/sitemap</h2>
+        <p class="mb-4">
+          Fetch all links from a sitemap URL. Use the query
+          <code>preview=true</code> for a preview of titles and descriptions.
+          Enhance SEO research or automate web crawling tasks effortlessly.
+        </p>
+        <div class="bg-gray-50 p-4 rounded shadow">
+          <h3 class="font-bold">Example Request:</h3>
+          <pre class="bg-gray-800 text-white p-4 rounded">
+GET /sitemap?url=https://example.com/sitemap.xml
+          </pre>
+          <h3 class="font-bold mt-4">Example Response:</h3>
+          <pre class="bg-gray-800 text-white p-4 rounded">
+{
+  "links": [
+    "https://example.com/page1",
+    "https://example.com/page2"
+  ]
+}
+          </pre>
+        </div>
+      </section>
+
+      <!-- Proxy Route -->
+      <section id="proxy" class="mb-8">
+        <h2 class="text-2xl font-semibold mb-2">/proxy</h2>
+        <p class="mb-4">
+          Bypass CORS restrictions for a given URL and fetch its content.
+          Perfect for securely integrating third-party APIs into your projects.
+        </p>
+        <div class="bg-gray-50 p-4 rounded shadow">
+          <h3 class="font-bold">Example Request:</h3>
+          <pre class="bg-gray-800 text-white p-4 rounded">
+GET /proxy?url=https://example.com/api
+          </pre>
+          <h3 class="font-bold mt-4">Example Response:</h3>
+          <pre class="bg-gray-800 text-white p-4 rounded">
+{
+  "data": "Content from the proxied URL."
+}
+          </pre>
+        </div>
+      </section>
+
+      <!-- Drive Download Route -->
+      <section id="drive-download" class="mb-8">
+        <h2 class="text-2xl font-semibold mb-2">/drive-download</h2>
+        <p class="mb-4">
+          Convert a Google Drive public file link to a direct download link.
+          Streamline file access and simplify sharing workflows.
+        </p>
+        <div class="bg-gray-50 p-4 rounded shadow">
+          <h3 class="font-bold">Example Request:</h3>
+          <pre class="bg-gray-800 text-white p-4 rounded">
+GET /drive-download?url=https://drive.google.com/file/d/FILE_ID/view
+          </pre>
+          <h3 class="font-bold mt-4">Example Response:</h3>
+          <pre class="bg-gray-800 text-white p-4 rounded">
+{
+  "downloadLink": "https://drive.google.com/uc?id=FILE_ID&export=download"
+}
+          </pre>
+        </div>
+      </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-gray-800 text-white py-4 mt-8">
+      <div class="container mx-auto px-4 text-center">
+        <p>© 2025 Parse Point. Built for developers.</p>
+        <a href="https://github.com/thernguy"> < Follow the creator /> </a>
+      </div>
+    </footer>
+  </body>
+</html>

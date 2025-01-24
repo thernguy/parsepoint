@@ -105,33 +105,53 @@ const proxyRequest = async (req, res) => {
   const url = req.query.url;
 
   if (!url) {
-      return res.status(400).json({ error: 'Missing required parameter `url`' });
+    return res.status(400).json({ error: "Missing required parameter `url`" });
   }
 
-  if (!url.startsWith('http')) {
-      return res.status(400).json({ error: 'Invalid URL' });
+  if (!url.startsWith("http")) {
+    return res.status(400).json({ error: "Invalid URL" });
   }
 
   try {
-      // Make the request to the target URL
-      const response = await axios.get(url, {
-          headers: {
-              // Add custom headers if required, e.g., User-Agent
-              'User-Agent': 'Node.js Proxy Server',
-          },
-      });
+    // Make the request to the target URL
+    const response = await axios.get(url, {
+      headers: {
+        // Add custom headers if required, e.g., User-Agent
+        "User-Agent": "Node.js Proxy Server",
+      },
+    });
 
-      // Pass the fetched content back to the client
-      res.status(200).send(response.data);
+    // Pass the fetched content back to the client
+    res.status(200).send(response.data);
   } catch (error) {
-      console.error('Proxy Error:', error.message);
-      res.status(500).json({ error: 'Failed to fetch the requested URL' });
+    console.error("Proxy Error:", error.message);
+    res.status(500).json({ error: "Failed to fetch the requested URL" });
   }
 };
+const getDriveDownloadLink = (req, res) => {
+  const { url } = req.query;
 
+  if (!url) {
+    return res.status(400).json({ error: "Missing required parameter `url`" });
+  }
+
+  const driveRegex =
+    /https?:\/\/drive\.google\.com\/(?:file\/d\/|open\?id=)([^\/\?]+)/;
+  const match = url.match(driveRegex);
+
+  if (!match) {
+    return res.status(400).json({ error: "Invalid Google Drive URL" });
+  }
+
+  const fileId = match[1]; 
+  const downloadLink = `https://drive.google.com/uc?id=${fileId}&export=download`;
+
+  res.json({ downloadLink });
+};
 
 module.exports = {
   getMetadata,
   fetchSitemapLinks,
   proxyRequest,
+  getDriveDownloadLink,
 };
