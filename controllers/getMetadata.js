@@ -1,32 +1,10 @@
+const { default: axios } = require("axios");
 const meta = require("html-metadata-parser");
+const { default: parse } = require("node-html-parser");
+
 const getMetadata = async (req, res) => {
   const url = req.query.url;
-
-  if (!url) {
-    res.status(400).json({ error: "Missing required parameter `url`" });
-    return;
-  }
-
-  if (!url.startsWith("http")) {
-    res
-      .status(400)
-      .json({ error: "Invalid URL. URL must start with http or https." });
-    return;
-  }
-
-  try {
-    const metadata = await meta.parser(url);
-    res.json(metadata);
-  } catch (error) {
-    console.error("Error parsing metadata:", error);
-    res
-      .status(500)
-      .json({ error: "Failed to fetch metadata. Please try again later." });
-  }
-};
-const renderPreview = async (req, res) => {
-  const url = req.query.url;
-
+  const preview = req.query.preview === "true";
   if (!url) {
     res.status(400).send("<h1>Error: Missing required parameter `url`</h1>");
     return;
@@ -42,12 +20,15 @@ const renderPreview = async (req, res) => {
   try {
     const metadata = await meta.parser(url);
 
+    if (!preview) {
+      res.json(metadata);
+      return;
+    }
     // Extract relevant data
     const title = metadata.meta.title || "No Title Available";
     const description = metadata.meta.description || "No Description Available";
     const image =
       metadata.og.image || "https://via.placeholder.com/600x300?text=No+Image";
-
     // Render HTML with metadata
     res.send(`
             <!DOCTYPE html>
@@ -80,7 +61,77 @@ const renderPreview = async (req, res) => {
   }
 };
 
+const fetchSitemapLinks = async (req, res) => {
+  const url = req.query.url;
+  const preview = req.query.preview === "true";
+
+  if (!url) {
+    return res.json({ error: "Missing required parameter `url`" });
+  }
+  if (!url.startsWith("http")) {
+    return res.json({ error: "Invalid URL" });
+  }
+  try {
+    const response = await axios.get(url);
+    const html = parse(response.data);
+    const links = html
+      .querySelectorAll("a")
+      .map((a) => a.getAttribute("href"))
+      .filter(Boolean);
+
+    if (preview) {
+      // Generate HTML preview
+      const linkList = links
+        .map((link) => `<li><a href="${link}" target="_blank">${link}</a></li>`)
+        .join("");
+      res.send(`
+              <html>
+                  <body>
+                      <h1>Preview of Links</h1>
+                      <ul>${linkList}</ul>
+                  </body>
+              </html>
+          `);
+    } else {
+      // Return JSON response
+      res.json({ links });
+    }
+  } catch (error) {
+    res.json({ error: "Failed to fetch sitemap links" });
+  }
+};
+
+const proxyRequest = async (req, res) => {
+  const url = req.query.url;
+
+  if (!url) {
+      return res.status(400).json({ error: 'Missing required parameter `url`' });
+  }
+
+  if (!url.startsWith('http')) {
+      return res.status(400).json({ error: 'Invalid URL' });
+  }
+
+  try {
+      // Make the request to the target URL
+      const response = await axios.get(url, {
+          headers: {
+              // Add custom headers if required, e.g., User-Agent
+              'User-Agent': 'Node.js Proxy Server',
+          },
+      });
+
+      // Pass the fetched content back to the client
+      res.status(200).send(response.data);
+  } catch (error) {
+      console.error('Proxy Error:', error.message);
+      res.status(500).json({ error: 'Failed to fetch the requested URL' });
+  }
+};
+
+
 module.exports = {
   getMetadata,
-  renderPreview,
+  fetchSitemapLinks,
+  proxyRequest,
 };
